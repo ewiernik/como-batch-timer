@@ -330,8 +330,8 @@
   css.textContent = `
     #cbt-panel {
       position: fixed;
-      bottom: 18px;
-      right: 18px;
+      bottom: auto;
+      right: auto;
       width: 380px;
       background: #0d1117;
       border: 1px solid #30363d;
@@ -400,7 +400,7 @@
 
     #cbt-body {
       padding: 8px 10px 10px;
-      max-height: 1000px;
+      max-height: 600px;
       overflow-y: auto;
     }
 
@@ -412,7 +412,7 @@
     #cbt-hist-table thead tr {
       border-bottom: 1px solid #21262d;
     }
-    #cbt-table th, #cbt-hist-table th {
+#cbt-table th, #cbt-hist-table th {
       color: #ffffff;
       font-weight: 600;
       font-size: 15px;
@@ -420,10 +420,7 @@
       letter-spacing: 0.07em;
       padding: 4px 8px 7px;
       text-align: left;
-      position: sticky;
-      top: 0;
       background: #0d1117;
-      z-index: 1;
     }
     #cbt-table th:not(:first-child),
     #cbt-hist-table th:not(:first-child) { text-align: center; }
@@ -706,6 +703,25 @@
     debouncedPoll();
   });
   observer.observe(document.body, { childList: true, subtree: true });
+
+// Restore saved position, or default to top-right under the nav
+  const savedPos = JSON.parse(localStorage.getItem('cbt_pos') || 'null');
+  if (savedPos) {
+    panel.style.left = savedPos.left;
+    panel.style.top  = savedPos.top;
+  } else {
+    panel.style.top  = '100px';
+    panel.style.right = '18px';
+  }
+
+  // Save position whenever dragging stops
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    localStorage.setItem('cbt_pos', JSON.stringify({
+      left: panel.style.left,
+      top:  panel.style.top,
+    }));
+  });
 
   setInterval(pollActiveTasks, POLL_MS);
   setInterval(tick, TICK_MS);

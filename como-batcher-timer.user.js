@@ -461,7 +461,7 @@
       font-weight: 700;
       color: #3fb950;
       text-align: center;
-      display: block;
+      display: inline;
     }
     .cbt-elapsed.warn  { color: #e3b341; }
     .cbt-elapsed.alert { color: #f85149; }
@@ -473,7 +473,7 @@
       font-weight: 700;
       color: #3fb950;
       text-align: center;
-      display: block;
+      display: inline;
     }
     .cbt-rate.warn    { color: #e3b341; }
     .cbt-rate.alert   { color: #f85149; }
